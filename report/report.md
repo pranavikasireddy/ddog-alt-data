@@ -38,11 +38,11 @@ The question: can free, public alternative data help forecast Datadog's quarterl
 | Accessibility & Cost | Free (unofficial API) | Free (filings) | Wayback free; vendors paid |
 | Limitations & Mitigations | Index is re-normalized on every pull (vintage risk) -> use YoY change; **in testing, the sign flipped between windows for every term** | Only quarterly, so coincident not leading; **correlated with DDOG revenue at every lag, i.e. a shared macro trend, not a lead-lag relationship** | Wayback: the archived careers page is a client-rendered app backed by a live search index, so the HTML contains no listings -> **free historical data is infeasible; a paid vendor feed is the mitigation** |
 
-During development, ~13 further signals (developer-forum activity, GitHub, insider filings, short interest, Terraform release cadence, Wikipedia pageviews) were also scanned across multiple targets and lags; none survived a two-window consistency check. That scan is not part of this submission -- with that many comparisons it is hypothesis generation, not evidence -- but it is the reason the multiple-testing framing in Section 2 is conservative.
+During development, ~13 further signals (developer-forum activity, GitHub, insider filings, short interest, Terraform release cadence, Wikipedia pageviews) were scanned across multiple targets and lags; none survived a two-window consistency check. With that many comparisons this is hypothesis generation, not evidence, so it is excluded here.
 
 ### 1.4 AI-tooling adoption (proposed; not yet enough history to test)
 
-The most economically relevant emerging driver is AI-workload observability: the FY2025 10-K attributes "approximately seven percentage points" of YoY revenue growth to AI-native customers, and management flagged MCP tool-call volume "up 22x since Q4 2025" (Q2 2026 call). Two free series track this adoption: npm downloads of `datadog-mcp-server` (roughly 1.8k rising to 16.7k quarterly through 2026Q2) and Google Trends for "LLM observability" (about 2 to about 85 between 2025Q1 and 2026Q2). Both move in the direction the disclosures imply, but this is **not carried into the analysis**: only ~4-6 quarters exist, all post-2024, and Datadog discloses no quarterly AI-ARR series to regress against. It is flagged as the first signal to test as history accrues (Section 4), not evidence now.
+The most relevant emerging driver is AI-workload observability: the FY2025 10-K attributes "approximately seven percentage points" of YoY revenue growth to AI-native customers. Two free series track it, npm downloads of `datadog-mcp-server` and Google Trends for "LLM observability", both rising sharply through 2026Q2. It is **not carried into the analysis**: only ~4-6 post-2024 quarters exist and Datadog discloses no quarterly AI-ARR series to regress against. Flagged as the first signal to test as history accrues (Section 4), not evidence now.
 
 ## 2. Statistical Analysis and Predictive Evidence
 
@@ -82,7 +82,7 @@ Both survive a Benjamini-Hochberg correction over the 20 correlations tested her
 
 ### 2.3 Modeling and out-of-sample validation
 
-Each signal was tested in two model forms: OLS on the signal alone, and the signal added to an AR(1) on the target's own lag. Both ran against three no-signal baselines (random walk, seasonal-naive, AR(1)) in an expanding-window walk-forward: at each step the model sees only earlier quarters. The AR(1)+signal form is the fair test, since the target's own momentum is already a strong predictor. All models are scored on MAPE, RMSE, and a directional hit rate. Skill score is `1 - RMSE_model / RMSE_baseline` against the best baseline.
+Each signal was tested in two forms, OLS on the signal alone and the signal added to an AR(1) on the target's own lag, against three no-signal baselines (random walk, seasonal-naive, AR(1)) in an expanding-window walk-forward. The AR(1)+signal form is the fair test, since the target's own momentum is already a strong predictor. Scoring: MAPE, RMSE, directional hit rate, and skill score (`1 - RMSE_model / RMSE_baseline` against the best baseline).
 
 **Revenue growth, `npm_dd_trace_yoy` (lag 2).** This is the model the brief asks for: a proposed signal linked to quarterly revenue growth. `dd-trace` download growth, lagged two quarters, regressed on `revenue_yoy_pct`, walk-forward, both windows:
 
@@ -100,7 +100,7 @@ Every version loses to the naive baseline (negative skill = larger RMSE than a r
 | Primary (2023Q1+) | 8 | 1.91 / 10.5% / 0.57 | 3.55 / 16.0% / 0.57 | -85.9% |
 | Robustness (2021Q1+) | 12 | 2.47 / 12.3% / 0.55 | 2.09 / 11.0% / 0.55 | **+15.4%** |
 
-The +15.4% does not hold up to scrutiny. A 10,000-sample bootstrap puts the 95% CI at **[-32%, +38%]** (77% of draws positive); a Diebold-Mariano test gives one-sided p = **0.24** (and an uncorrected DM is optimistic, so the true p is higher). It also comes entirely from the longer window: the primary window scores -85.9%, because its walk-forward does not start until ~2024Q3 and so never tests the 2022-2024 arc where the model's advantage lies. Combined with the flat-lag correlation above, the evidence is one shared arc fit once, not twelve independent wins.
+The +15.4% does not hold up. The 95% bootstrap CI is **[-32%, +38%]** (77% of draws positive) and the Diebold-Mariano p is **0.24** (higher after small-sample correction). It also comes entirely from the longer window: the primary window scores -85.9%, since its walk-forward starts only at ~2024Q3 and never sees the 2022-2024 arc the model exploits. With the flat-lag correlation above, this is one shared arc fit once, not twelve independent wins.
 
 **Revenue nowcast: the guidance fallback.** With no signal beating the baseline on revenue, the delivered revenue nowcast is a rule rather than an alt-data model: next-quarter revenue = guidance midpoint x (1 + trailing mean beat), the mean beat re-estimated each quarter from only the beats known by then. Walk-forward over the 9 quarters where a trailing beat could be formed (2024Q1 to 2026Q2), scored on reported revenue in dollars and on the direction of the YoY-growth change:
 
@@ -117,34 +117,35 @@ The guidance rule wins on all three. The naive carry's 0.00 direction hit is str
 
 ![Figure 3: walk-forward actual vs. predicted, robustness window](fig3_walk_forward.png)
 
-### 2.4 2026Q3 nowcast (Figure 4)
+### 2.4 2026Q3 nowcast
 
 **Revenue.** With no working signal, the call is the guidance rule backtested in Section 2.3 (0.6% MAPE). Datadog's Q3 2026 guidance midpoint is **$1,140M**, and actual revenue has come in above the midpoint in all 13 quarters checked (2023Q1 to 2026Q2; 2025Q2 could not be cleanly sourced and was left out rather than estimated), by **+3.9%** (sd 0.9pp, range +1.9% to +5.2%). Applying that beat gives **~$1,184M** (about $1,174M to $1,194M at +/-1 sd); the naive "same YoY growth" method gives ~$1,204M. Both sit above the midpoint: **tracking modestly ahead of guidance**.
 
 **Customer-count growth.** Model nowcast **+22.5% YoY** vs. a **+22.6%** random-walk baseline (band +/-2.1 points): **in line**. On the year-ago base of 4,060, that implies roughly **4,970** customers with $100k+ ARR.
 
-![Figure 4: dashboard nowcast panels, static rendering](fig4_dashboard.png)
-
 ## 3. Dashboard Design
 
-A runnable Streamlit prototype (`dashboard/app.py`) with five panels, wired to the fitted model rather than static figures:
+A runnable Streamlit prototype (`dashboard/app.py`) with five panels, wired to the fitted model rather than static figures. Figure 4 is a static rendering of all five for readers who do not run it.
 
-1. **Signal monitor** -- quarter-to-date YoY change for each tracked signal. Update cadence: npm downloads daily (~1-day lag), Google Trends weekly (~2-day lag), hyperscaler cloud revenue quarterly (~4 weeks after each filing). A full refresh is a same-day operation.
+<img src="fig4_dashboard.png" style="width:60%" alt="Figure 4: dashboard, static rendering of all five panels">
+
+
+1. **Signal monitor** -- quarter-to-date YoY change per signal. Update cadence: npm daily (~1-day lag), Google Trends weekly (~2-day lag), cloud revenue quarterly (~4 weeks after each filing).
 2. **Revenue nowcast** -- guidance midpoint, guidance-plus-historical-beat, and random-walk estimates, with the tracking-vs-guidance call.
-3. **Customer-count nowcast** -- the model estimate, its baseline, and the bootstrap CI on its backtest skill, so the panel cannot overstate the edge.
-4. **Signal synthesis** -- the intended combination method: inverse-variance weighting, where each signal's nowcast is weighted proportionally to 1 / its out-of-sample error variance. The worked table's weights currently collapse to one signal because only one survived screening.
+3. **Customer-count nowcast** -- model estimate, baseline, and the bootstrap CI on backtest skill, so the panel cannot overstate the edge.
+4. **Signal synthesis** -- inverse-variance weighting (each signal's nowcast weighted by 1 / its out-of-sample error variance); currently collapses to one signal, since only one survived screening.
 5. **Backtest track record** -- the full MAPE / RMSE / hit-rate table for every model and baseline, selectable by window.
 
-Interpretation guide: "tracking ahead" = nowcast above the reference (guidance midpoint for revenue, baseline for customer count) by more than one RMSE; "behind" = more than one RMSE below; "in line" otherwise.
+Interpretation guide: "tracking ahead" = nowcast more than one RMSE above the reference (guidance midpoint for revenue, baseline for customer count); "behind" = more than one RMSE below; "in line" otherwise.
 
 ## 4. Limitations
 
-- The one alt-data signal that showed an edge (RUM downloads vs. customer-count growth) is not statistically established (CI [-32%, +38%], DM p = 0.24), rests on one 2022-2024 arc scored once, and comes from the window where the signal correlates at every lag (largely shared trend, not clean lead-lag). It should be read as a weak, not-yet-credible signal. The clean out-of-sample result is the revenue guidance rule (Section 2.3), which uses no alt-data.
-- Sample sizes are small throughout (n = 8-23), a structural consequence of Datadog's short public history. Only the two tested pairs are treated as evidence, and even those only for the correlation, not the forecast.
+- The one alt-data signal with an edge (RUM downloads vs. customer-count growth) is not statistically established (CI [-32%, +38%], DM p = 0.24), rests on one 2022-2024 arc scored once, and correlates at every lag (shared trend, not clean lead-lag). Read it as weak, not-yet-credible. The clean result is the revenue guidance rule (Section 2.3), which uses no alt-data.
+- Sample sizes are small throughout (n = 8-23), from Datadog's short public history. Only the two tested pairs count as evidence, and only for the correlation, not the forecast.
 - Google Trends is re-normalized on every pull (vintage risk); npm signals cover specific SDKs, not the whole business; three of the historical $100k-customer counts were read from a later quarter's YoY disclosure (noted per row in `data/ddog_kpis.csv`).
 - Revenue guidance was gathered for 13 of the 14 relevant quarters (2025Q2 unverified); the beat statistic is tight and uniformly positive across them.
 - All data is public or from official free APIs; no MNPI; data-source terms respected.
-- Next steps if this continued: a vendor feed for consistent quarterly NRR / cRPO / hiring, historical analyst-consensus so the benchmark is "beat the Street" not "beat a random walk", and AI-tooling adoption (Section 1.4) tested once ~8 quarters of history exist.
+- Next steps: paid feeds for quarterly NRR / cRPO / hiring, historical analyst consensus as the benchmark, and AI-tooling adoption (Section 1.4) once ~8 quarters exist.
 
 ---
 

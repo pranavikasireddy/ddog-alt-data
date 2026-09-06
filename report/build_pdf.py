@@ -20,19 +20,19 @@ PDF = HERE / "report.pdf"
 FIGDIR = HERE / "figures"
 
 CSS = """
-body { font-family: sans-serif; font-size: 9pt; line-height: 1.16; }
-h1 { font-size: 15pt; margin: 0 0 4pt 0; }
-h2 { font-size: 11.5pt; margin: 9pt 0 3pt 0; }
-h3 { font-size: 9.6pt; margin: 6pt 0 2pt 0; }
-p { margin: 3.5pt 0; }
-ul, ol { margin: 3pt 0; padding-left: 16pt; }
-li { margin: 1.5pt 0; }
-table { border-collapse: collapse; font-size: 9pt; margin: 4pt 0; width: 100%; }
-th, td { border-bottom: 0.4pt solid #bbb; padding: 2.5pt 3.5pt; text-align: left; vertical-align: top; }
+body { font-family: sans-serif; font-size: 9pt; line-height: 1.22; }
+h1 { font-size: 15pt; margin: 0 0 5pt 0; }
+h2 { font-size: 11.5pt; margin: 10pt 0 4pt 0; }
+h3 { font-size: 9.6pt; margin: 8pt 0 3pt 0; }
+p { margin: 4.5pt 0; }
+ul, ol { margin: 4.5pt 0; padding-left: 16pt; }
+li { margin: 2.5pt 0; }
+table { border-collapse: collapse; font-size: 9pt; margin: 5pt 0; width: 100%; }
+th, td { border-bottom: 0.4pt solid #bbb; padding: 3pt 4pt; text-align: left; vertical-align: top; }
 th { font-weight: bold; }
 tr { page-break-inside: avoid; }
-img { width: 80%; margin: 4pt 0; }
-hr { border: none; border-top: 0.5pt solid #ccc; margin: 6pt 0; }
+img { width: 76%; margin: 5pt 0; }
+hr { border: none; border-top: 0.5pt solid #ccc; margin: 8pt 0; }
 code { font-family: monospace; font-size: 9pt; }
 """
 
@@ -43,7 +43,7 @@ def main() -> None:
     html = f"<html><head><style>{CSS}</style></head><body>{html_body}</body></html>"
 
     page_rect = pymupdf.paper_rect("letter")
-    margin = 40
+    margin = 44
     where = page_rect + (margin, margin, -margin, -margin)
 
     story = pymupdf.Story(html=html, archive=str(FIGDIR))
