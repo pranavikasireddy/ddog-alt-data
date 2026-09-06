@@ -20,20 +20,20 @@ PDF = HERE / "report.pdf"
 FIGDIR = HERE / "figures"
 
 CSS = """
-body { font-family: sans-serif; font-size: 8.2pt; line-height: 1.28; }
-h1 { font-size: 13.5pt; margin: 0 0 3pt 0; }
-h2 { font-size: 10pt; margin: 8pt 0 2pt 0; }
-h3 { font-size: 8.8pt; margin: 5pt 0 2pt 0; }
-p { margin: 2.5pt 0; }
-ul { margin: 2pt 0; padding-left: 13pt; }
-li { margin: 1pt 0; }
-table { border-collapse: collapse; font-size: 7pt; margin: 3pt 0; width: 100%; }
-th, td { border-bottom: 0.4pt solid #bbb; padding: 2pt 3pt; text-align: left; vertical-align: top; }
+body { font-family: sans-serif; font-size: 9pt; line-height: 1.16; }
+h1 { font-size: 15pt; margin: 0 0 4pt 0; }
+h2 { font-size: 11.5pt; margin: 9pt 0 3pt 0; }
+h3 { font-size: 9.6pt; margin: 6pt 0 2pt 0; }
+p { margin: 3.5pt 0; }
+ul, ol { margin: 3pt 0; padding-left: 16pt; }
+li { margin: 1.5pt 0; }
+table { border-collapse: collapse; font-size: 9pt; margin: 4pt 0; width: 100%; }
+th, td { border-bottom: 0.4pt solid #bbb; padding: 2.5pt 3.5pt; text-align: left; vertical-align: top; }
 th { font-weight: bold; }
 tr { page-break-inside: avoid; }
-img { width: 78%; margin: 3pt 0; }
-hr { border: none; border-top: 0.5pt solid #ccc; margin: 5pt 0; }
-code { font-family: monospace; font-size: 7.4pt; }
+img { width: 80%; margin: 4pt 0; }
+hr { border: none; border-top: 0.5pt solid #ccc; margin: 6pt 0; }
+code { font-family: monospace; font-size: 9pt; }
 """
 
 

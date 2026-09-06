@@ -42,7 +42,7 @@ During development, ~13 further signals (developer-forum activity, GitHub, insid
 
 ### 1.4 AI-tooling adoption (proposed; not yet enough history to test)
 
-The most economically relevant emerging driver is AI-workload observability: the FY2025 10-K attributes "approximately seven percentage points" of YoY revenue growth to AI-native customers, and management flagged MCP tool-call volume "up 22x since Q4 2025" (Q2 2026 call). Two free series track this adoption: npm downloads of `datadog-mcp-server` (roughly 1.8k rising to 16.7k quarterly through 2026Q2) and Google Trends for "LLM observability" (about 2 to about 85 between 2025Q1 and 2026Q2). Both move in the direction the disclosures imply, but this is **not carried into the analysis**: only ~4-6 quarters exist, all post-2024, and Datadog discloses no quarterly AI-ARR series to regress against. It is flagged as the first signal to test as history accrues (Section 5), not evidence now.
+The most economically relevant emerging driver is AI-workload observability: the FY2025 10-K attributes "approximately seven percentage points" of YoY revenue growth to AI-native customers, and management flagged MCP tool-call volume "up 22x since Q4 2025" (Q2 2026 call). Two free series track this adoption: npm downloads of `datadog-mcp-server` (roughly 1.8k rising to 16.7k quarterly through 2026Q2) and Google Trends for "LLM observability" (about 2 to about 85 between 2025Q1 and 2026Q2). Both move in the direction the disclosures imply, but this is **not carried into the analysis**: only ~4-6 quarters exist, all post-2024, and Datadog discloses no quarterly AI-ARR series to regress against. It is flagged as the first signal to test as history accrues (Section 4), not evidence now.
 
 ## 2. Statistical Analysis and Predictive Evidence
 
@@ -144,10 +144,7 @@ Interpretation guide: "tracking ahead" = nowcast above the reference (guidance m
 - Google Trends is re-normalized on every pull (vintage risk); npm signals cover specific SDKs, not the whole business; three of the historical $100k-customer counts were read from a later quarter's YoY disclosure (noted per row in `data/ddog_kpis.csv`).
 - Revenue guidance was gathered for 13 of the 14 relevant quarters (2025Q2 unverified); the beat statistic is tight and uniformly positive across them.
 - All data is public or from official free APIs; no MNPI; data-source terms respected.
-
-## 5. Further Work
-
-Paid data would address the two binding constraints: a vendor feed for consistent quarterly NRR / cRPO / hiring, and historical analyst-consensus estimates so the benchmark is "beat the Street," not "beat a random walk." The priority new signal is AI-tooling adoption (Section 1.4): keep logging `datadog-mcp-server` npm downloads and "LLM observability" / "AI observability" search interest each quarter, and once ~8 quarters exist, test them against revenue growth and against the AI-native cohort's contribution to growth as newly disclosed each year. On method: a properly cross-validated multi-signal model once more history exists to fit one without overfitting.
+- Next steps if this continued: a vendor feed for consistent quarterly NRR / cRPO / hiring, historical analyst-consensus so the benchmark is "beat the Street" not "beat a random walk", and AI-tooling adoption (Section 1.4) tested once ~8 quarters of history exist.
 
 ---
 
