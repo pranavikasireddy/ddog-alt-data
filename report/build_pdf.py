@@ -8,6 +8,7 @@ Usage:
 """
 from __future__ import annotations
 
+import io
 from pathlib import Path
 
 import markdown
@@ -46,7 +47,8 @@ def main() -> None:
     where = page_rect + (margin, margin, -margin, -margin)
 
     story = pymupdf.Story(html=html, archive=str(FIGDIR))
-    writer = pymupdf.DocumentWriter(str(PDF))
+    buffer = io.BytesIO()
+    writer = pymupdf.DocumentWriter(buffer)
     pages = 0
     more = True
     while more:
@@ -56,7 +58,15 @@ def main() -> None:
         writer.end_page()
         pages += 1
     writer.close()
-    print(f"wrote {PDF.relative_to(HERE.parent)} ({pages} pages)")
+
+    # DocumentWriter emits uncompressed content streams (~8 MB for this report);
+    # re-save with stream compression and dead-object cleanup.
+    doc = pymupdf.open("pdf", buffer.getvalue())
+    doc.save(str(PDF), garbage=4, deflate=True, deflate_images=True,
+             deflate_fonts=True, use_objstms=1)
+    doc.close()
+    print(f"wrote {PDF.relative_to(HERE.parent)} "
+          f"({pages} pages, {PDF.stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":
