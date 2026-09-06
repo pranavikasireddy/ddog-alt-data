@@ -1,0 +1,15 @@
+fiscal_quarter,period_end,aws_rev_usd_m,aws_growth_yoy_pct,msft_intelligent_cloud_usd_m,azure_growth_yoy_pct,gcp_rev_usd_m,gcp_growth_yoy_pct,source_url
+2023Q1,2023-03-31,21354,,,,,,Amazon 10-Q segment revenue
+2023Q2,2023-06-30,22140,,,,,,Amazon 10-Q segment revenue
+2023Q3,2023-09-30,23059,,,,,,Amazon 10-Q segment revenue
+2023Q4,2023-12-31,24204,,,,,,Amazon 10-Q segment revenue
+2024Q1,2024-03-31,25037,,,,,,Amazon 10-Q segment revenue
+2024Q2,2024-06-30,26281,,,,,,Amazon 10-Q segment revenue
+2024Q3,2024-09-30,27452,,,33.0,,,AWS confirmed; Azure growth +33% is MSFT FY25-Q1 (Jul-Sep 2024) -- MSFT fiscal quarters run 1 calendar quarter ahead; verify mapping before trusting
+2024Q4,2024-12-31,28786,,,,,,Amazon 10-Q segment revenue
+2025Q1,2025-03-31,29267,,,,,,Amazon 10-Q segment revenue
+2025Q2,2025-06-30,30873,,,,,,Amazon 10-Q segment revenue
+2025Q3,2025-09-30,33006,,,40.0,,,AWS confirmed; Azure growth +40% is MSFT FY26-Q1 (Jul-Sep 2025) -- verify fiscal/calendar mapping
+2025Q4,2025-12-31,35579,,,39.0,17700.0,,AWS confirmed; Azure growth +39% is MSFT FY26-Q2 (Oct-Dec 2025); GCP revenue $17.7B +48% YoY confirmed
+2026Q1,2026-03-31,37587,,,,20000.0,,AWS confirmed; GCP revenue $20.0B +63% YoY confirmed; Azure growth not pulled for this quarter
+2026Q2,2026-06-30,42232,,,,24800.0,,AWS confirmed; GCP revenue $24.8B +82% YoY confirmed; Azure growth not pulled for this quarter

@@ -1,0 +1,24 @@
+# Core
+pandas>=2.0
+numpy>=1.24
+python-dateutil>=2.8
+
+# Fetching
+pytrends>=4.9
+urllib3<2.0        # pytrends 4.9's Retry(method_whitelist=...) breaks on urllib3>=2.0
+requests>=2.31
+lxml>=4.9          # pandas.read_html for filings / macrotrends tables
+
+# Analysis
+statsmodels>=0.14
+scikit-learn>=1.3
+scipy>=1.11
+
+# Viz / dashboard
+matplotlib>=3.7
+streamlit>=1.30
+altair>=5.0
+
+# Report PDF (report/build_pdf.py)
+markdown>=3.5
+pymupdf>=1.24
